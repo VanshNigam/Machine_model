@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>👨‍💻 Student Placement Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Share Tech Mono', monospace;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            height: 100vh;
+            color: #00ffcc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-container {
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px #00ffc8;
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid #00ffcc;
+            animation: fadeIn 1.2s ease-in-out;
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            color: #00ffcc;
+            text-shadow: 0 0 10px #00ffcc;
+        }
+
+        label {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="number"], input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        input[type="number"] {
+            background-color: #111;
+            color: #00ffcc;
+            border: 1px solid #00ffc8;
+            box-shadow: inset 0 0 10px #00ffc8;
+        }
+
+        input[type="submit"] {
+            background: linear-gradient(90deg, #00ffc8, #0055ff);
+            color: black;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px #00ffc8;
+        }
+
+        input[type="submit"]:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px #00ffc8;
+        }
+
+        .result {
+            font-size: 1.4rem;
+            color: #00ffcc;
+            text-align: center;
+            margin-top: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { text-shadow: 0 0 5px #00ffcc; }
+            50% { text-shadow: 0 0 20px #00ffcc; }
+            100% { text-shadow: 0 0 5px #00ffcc; }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>👨‍💻 Student Placement Predictor</h2>
+        <form action="/predict" method="post">
+            <label for="IQ">IQ:</label>
+            <input type="number" name="IQ" required>
+            
+            <label for="CGPA">CGPA:</label>
+            <input type="number" step="0.01" name="CGPA" required>
+            
+            <label for="10th_Marks">10th Marks:</label>
+            <input type="number" name="10th_Marks" required>
+            
+            <label for="12th_Marks">12th Marks:</label>
+            <input type="number" name="12th_Marks" required>
+            
+            <label for="Communication_Skills">Communication Skills:</label>
+            <input type="number" step="0.01" name="Communication_Skills" required>
+            
+            <input type="submit" value="⚡ PREDICT ⚡">
+        </form>
+        {% if prediction_text %}
+        <div class="result">{{ prediction_text }}</div>
+        {% endif %}
+    </div>
+    <!-- Confetti JS Library -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+{% if prediction_text and "Placed" in prediction_text %}
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+    const resultText = "{{ prediction_text }}";
+
+    // 🎉 Confetti effect
+    const duration = 3 * 1000;
+    const end = Date.now() + duration;
+
+    (function frame() {
+        confetti({
+            particleCount: 3,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+            colors: ['#00ffc8', '#00ffcc', '#0055ff']
+        });
+        confetti({
+            particleCount: 3,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+            colors: ['#00ffc8', '#00ffcc', '#0055ff']
+        });
+        if (Date.now() < end) {
+            requestAnimationFrame(frame);
+        }
+    }());
+
+    // 🎊 Popup message
+    setTimeout(() => {
+        alert("🎉 Congratulations! You are Placed! 🎉");
+    }, 500);
+</script>
+{% endif %}
+
+
+</body>
+</html>
